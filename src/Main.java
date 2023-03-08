@@ -1,7 +1,6 @@
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.integer.IntegerInputScanner;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
-import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
 import org.academiadecodigo.javabank.domain.Bank;
 import org.academiadecodigo.javabank.domain.Customer;
 import org.academiadecodigo.javabank.domain.account.AccountType;
@@ -39,31 +38,41 @@ public class Main {
 			
 			// criar e e mostrar menu
 			MenuInputScanner menu = new MenuInputScanner (menuOptions);
-			menu.setMessage ("Welcome to Javabank.\n");
+			menu.setMessage ("Welcome to Java Bank.\n");
 			int menuID = prompt.getUserInput (menu);
-			
 			
 			switch (menuID) {
 				case 1:
 					System.out.println (customer.getBalance () + " €\n");
 					break;
+
 				case 2:
 					IntegerInputScanner deposit = new IntegerInputScanner ();
 					deposit.setMessage ("Please insert amount:\n");
 					int amount = prompt.getUserInput (deposit);
-					
-					System.out.println (customer.getBalance () + "€\n");
+
+					// manager.deposit(menuID, amount);
+					System.out.println (customer.getBalance () + " €\n");
 					break;
+
 				case 3:
-					
+					IntegerInputScanner withdraw = new IntegerInputScanner ();
+					withdraw.setMessage ("Please insert amount:\n");
+
+					// int amount2 = prompt.getUserInput (withdraw);
+					// manager.withdraw(menuID, amount2);
+					// System.out.println (customer.getBalance () + " €\n");
 					break;
+
 				case 4:
 					int idCustomer = customer.openAccount (AccountType.CHECKING);
-					System.out.println ("criei novo costumer " + idCustomer);
+					System.out.println ("You have the following accounts: " + idCustomer);
 					break;
+
 				case 5:
-					System.exit (0);
+					System.exit (1);
 					break;
+
 			}
 			
 		}
