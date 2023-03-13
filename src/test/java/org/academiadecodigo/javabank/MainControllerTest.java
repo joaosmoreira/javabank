@@ -1,5 +1,7 @@
 package org.academiadecodigo.javabank;
 
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 import org.academiadecodigo.javabank.controller.Controller;
 import org.academiadecodigo.javabank.controller.MainController;
 import org.academiadecodigo.javabank.services.AuthService;
@@ -8,12 +10,15 @@ import org.academiadecodigo.javabank.view.Messages;
 import org.academiadecodigo.javabank.view.View;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+@RunWith (JUnitParamsRunner.class)
 
 public class MainControllerTest {
 	
@@ -23,6 +28,7 @@ public class MainControllerTest {
 	private Map<Integer,Controller> controllerMap;
 	private Controller controller;
 	private Messages messages;
+	private static boolean hasPrinted = false;
 	
 	@Before
 	public void setup() {
@@ -37,28 +43,45 @@ public class MainControllerTest {
 		mainController.setAuthService (authService);
 		mainController.setControllerMap (controllerMap);
 		
-		controllerMap.put (1, controller);
 	}
 	
 	@Test // if
 	public void initTest() {
 		mainController.init ();
 		verify(mainView).show();
-		System.out.println ("# -----------------------");
-		System.out.println ("estou a mostrar se o init do main inicia\n");
+		System.out.println ("=== === 1. TESTE AO INIT === ===");
+	}
+	
+	@Test
+	@Parameters ({"1", "2", "3", "4"})
+	public void menuSelectionValidOptionsButNotQuit (int i) {
+		// exercise
+		controllerMap.put (i,controller);
+		mainController.onMenuSelection (i);
+		
+		// verify
+		verify (mainView).show ();
+		
+		if (!hasPrinted) {
+			System.out.println ("=== === 2. TESTA TODAS AS OPCOES VALIDAS EXCEPTUANDO QUIT === ===");
+			hasPrinted = true;
+		}
 	}
 	
 	@Test // testing option quit
 	public void menuSelectionQuit () {
 		mainController.onMenuSelection (5);
 		verifyNoMoreInteractions (controller);
-		System.out.println ("# -----------------------");
-		System.out.println ("verifiquei as opcoes e escolhi o quit\n");
+		System.out.println ("=== === 3. TESTE A OPCAO QUIT === ===");
 	}
 	
 	@Test (expected = IllegalStateException.class) // testing an invalid option
 	public void menuSelectionInvalidOption()  {
 		int option = 7;
-		mainController.onMenuSelection(option);
+		try {
+			mainController.onMenuSelection(option);
+		} finally {
+			System.out.println("=== === 4. TESTE A UMA OPCAO INVALIDA === ===");
+		}
 	}
 }
