@@ -61,6 +61,4 @@ public class MainControllerTest {
 		int option = 7;
 		mainController.onMenuSelection(option);
 	}
-	
-	@Test //
 }
