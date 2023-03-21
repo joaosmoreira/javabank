@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class ConnectionManager {
 
     private static final String DEFAULT_USER = "root";
-    private static final String DEFAULT_PASS = "";
+    private static final String DEFAULT_PASS = "Moreira#1111";
     private static final String DEFAULT_HOST = "localhost";
     private static final String DEFAULT_DB = "javabank";
 
