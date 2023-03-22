@@ -5,6 +5,10 @@ import org.academiadecodigo.javabank.controller.*;
 import org.academiadecodigo.javabank.controller.transaction.DepositController;
 import org.academiadecodigo.javabank.controller.transaction.WithdrawalController;
 import org.academiadecodigo.javabank.factories.AccountFactory;
+import org.academiadecodigo.javabank.persistence.dao.jpa.JpaAccountDao;
+import org.academiadecodigo.javabank.persistence.dao.jpa.JpaCustomerDao;
+import org.academiadecodigo.javabank.persistence.jpa.JpaSessionManager;
+import org.academiadecodigo.javabank.persistence.jpa.JpaTransactionManager;
 import org.academiadecodigo.javabank.services.AccountService;
 import org.academiadecodigo.javabank.services.AuthServiceImpl;
 import org.academiadecodigo.javabank.services.CustomerService;
@@ -58,6 +62,12 @@ public class Bootstrap {
 
         // attach all input to standard i/o
         Prompt prompt = new Prompt(System.in, System.out);
+        
+        // novas instancias
+        JpaSessionManager jpaSessionManager = new JpaSessionManager ();
+        JpaTransactionManager jpaTransactionManager = new JpaTransactionManager ();
+        JpaAccountDao jpaAccountDao = new JpaAccountDao (jpaSessionManager);
+        JpaCustomerDao jpaCustomerDao =new JpaCustomerDao (jpaSessionManager);
 
         // wire services
         authService.setCustomerService(customerService);

@@ -2,6 +2,7 @@ package org.academiadecodigo.javabank;
 
 import org.academiadecodigo.javabank.controller.Controller;
 import org.academiadecodigo.javabank.persistence.JpaBootstrap;
+import org.academiadecodigo.javabank.persistence.jpa.JpaTransactionManager;
 import org.academiadecodigo.javabank.services.AuthServiceImpl;
 import org.academiadecodigo.javabank.services.jpa.JpaAccountService;
 import org.academiadecodigo.javabank.services.jpa.JpaCustomerService;
@@ -14,6 +15,7 @@ public class App {
 
         JpaBootstrap jpa = new JpaBootstrap();
         EntityManagerFactory emf = jpa.start();
+        JpaTransactionManager jpaTransactionManager = new JpaTransactionManager ();
 
         App app = new App();
         app.bootStrap(emf);
@@ -27,8 +29,8 @@ public class App {
         Bootstrap bootstrap = new Bootstrap();
 
         bootstrap.setAuthService(new AuthServiceImpl());
-        bootstrap.setAccountService(new JpaAccountService(emf));
-        bootstrap.setCustomerService(new JpaCustomerService(emf));
+        bootstrap.setAccountService(new JpaAccountService(new JpaTransactionManager ()));
+        bootstrap.setCustomerService(new JpaCustomerService());
 
         Controller controller = bootstrap.wireObjects();
 

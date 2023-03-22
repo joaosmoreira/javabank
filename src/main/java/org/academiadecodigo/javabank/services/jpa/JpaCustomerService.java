@@ -3,10 +3,10 @@ package org.academiadecodigo.javabank.services.jpa;
 import org.academiadecodigo.javabank.model.AbstractModel;
 import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.model.account.Account;
+import org.academiadecodigo.javabank.persistence.dao.jpa.JpaCustomerDao;
+import org.academiadecodigo.javabank.persistence.jpa.JpaTransactionManager;
 import org.academiadecodigo.javabank.services.CustomerService;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -16,22 +16,16 @@ import java.util.stream.Collectors;
  */
 public class JpaCustomerService implements CustomerService {
 
-    private EntityManagerFactory emf;
-
-    /**
-     * Instantiates a JpaCustomerService
-     *
-     * @param emf the {@link EntityManagerFactory} to use;
-     */
-    public JpaCustomerService(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
+    // private EntityManagerFactory emf;
+   
+    private JpaTransactionManager tm;
+    private JpaCustomerDao jpaCustomerDao;
+    
 
     @Override
     public Customer get(Integer id) {
-        EntityManager em = emf.createEntityManager();
-
-        return em.find(Customer.class, id);
+       
+        return jpaCustomerDao.findById (id);
     }
 
     /**
@@ -39,12 +33,10 @@ public class JpaCustomerService implements CustomerService {
      */
     @Override
     public double getBalance(Integer id) {
-
-        EntityManager em = emf.createEntityManager();
-
+        
         try {
 
-            Customer customer = Optional.ofNullable(em.find(Customer.class, id))
+            Customer customer = Optional.ofNullable(jpaCustomerDao.findById (id))
                 .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
 
             return customer.getAccounts().stream()
@@ -52,33 +44,27 @@ public class JpaCustomerService implements CustomerService {
                     .sum();
 
         } finally {
-            if (em != null) {
-                em.close();
+          
             }
         }
-    }
+    
 
     /**
      * @see CustomerService#listCustomerAccountIds(Integer)
      */
     @Override
     public Set<Integer> listCustomerAccountIds(Integer id) {
-
-        EntityManager em = emf.createEntityManager();
-
+        
         try {
 
-            Customer customer = Optional.ofNullable(em.find(Customer.class, id))
-                    .orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
+            Customer customer = Optional.ofNullable(jpaCustomerDao.findById (id)).orElseThrow(() -> new IllegalArgumentException("Customer does not exist"));
 
             return customer.getAccounts().stream()
                     .map(AbstractModel::getId)
                     .collect(Collectors.toSet());
 
         } finally {
-            if (em != null) {
-                em.close();
-            }
+        
         }
     }
 }
