@@ -1,15 +1,4 @@
-package org.academiadecodigo.javabank.controller;
-
-import org.academiadecodigo.javabank.services.AuthService;
-import org.academiadecodigo.javabank.view.View;
-
-/**
- * A generic controller to be used as a base for concrete controller implementations
- * @see Controller
- */
-public abstract class AbstractController implements Controller {
-
-    protected AuthService authService;
+   protected AuthService authService;
     protected View view;
 
     /**
