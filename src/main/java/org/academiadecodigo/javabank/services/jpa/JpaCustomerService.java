@@ -5,9 +5,10 @@ import org.academiadecodigo.javabank.services.AccountService;
 import org.academiadecodigo.javabank.services.CustomerService;
 
 import javax.persistence.EntityManager;
-import java.util.HashMap;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class JpaCustomerService implements CustomerService {
@@ -39,15 +40,30 @@ public class JpaCustomerService implements CustomerService {
 	@Override
 	public List<Customer> list () {
 		
-		Map<Integer, Customer> customers = new HashMap<> ();
-		
-		re
+		try {
+			CriteriaBuilder listBuilder = entityManager.getCriteriaBuilder ();
+			CriteriaQuery<Customer> criteriaQuery = listBuilder.createQuery (Customer.class);
+			Root<Customer> root = criteriaQuery.from (Customer.class);
+			criteriaQuery.select (root);
+			
+			return entityManager.createQuery (criteriaQuery).getResultList ();
+		} finally {
+			if (entityManager != null) {
+				entityManager.close ();
+			}
+		}
 		
 	}
 	
 	@Override
 	public Set<Integer> listCustomerAccountIds (Integer id) {
-		return null;
+		
+		CriteriaBuilder setBuilder = entityManager.getCriteriaBuilder ();
+		CriteriaQuery<Integer> criteriaQuery = setBuilder.createQuery (Integer.class);
+		Root<Integer> root = criteriaQuery.from (Integer.class);
+		criteriaQuery.select (root);
+		
+		return entityManager.createQuery (criteriaQuery).getResultList ().
 	}
 	
 	@Override
