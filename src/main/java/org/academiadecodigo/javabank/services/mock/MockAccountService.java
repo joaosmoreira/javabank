@@ -1,27 +1,35 @@
 package org.academiadecodigo.javabank.services.mock;
 
 import org.academiadecodigo.javabank.model.account.Account;
+import org.academiadecodigo.javabank.model.account.AccountType;
 import org.academiadecodigo.javabank.services.AccountService;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A mock {@link AccountService} implementation
  */
-public class MockAccountService implements AccountService {
+public class MockAccountService extends AbstractMockService<Account> implements AccountService {
 
-    private int currentId = 0;
-    private Map<Integer, Account> modelMap = new HashMap<>();
-
+    /**
+     * @see AccountService#get(Integer)
+     */
     @Override
-    public Account save(Account account) {
+    public Account get(Integer id) {
+        return modelMap.get(id);
+    }
 
-        if(account.getId() == null){
-            account.setId(++currentId);
+    /**
+     * @see AccountService#add(Account)
+     */
+    @Override
+    public Integer add(Account account) {
+
+        if (account.getId() == null) {
+            account.setId(getNextId());
         }
 
-        return modelMap.put(account.getId(), account);
+        modelMap.put(account.getId(), account);
+
+        return account.getId();
     }
 
     /**
@@ -37,8 +45,7 @@ public class MockAccountService implements AccountService {
     public void withdraw(Integer id, double amount) {
 
         Account account = modelMap.get(id);
-
-        if (!account.canWithdraw()) {
+        if (account.getAccountType() == AccountType.SAVINGS) {
             return;
         }
 
