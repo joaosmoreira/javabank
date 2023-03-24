@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <util:constant id="stdin" static-field="java.lang.System.in"/>
+    <util:constant id="stdout" static-field="java.lang.System.out"/>
+
+    <import resource="spring-config.xml" />
+    <import resource="spring-prompt.xml" />
+    <import resource="spring-views.xml" />
+    <import resource="spring-controllers.xml" />
+
+    <bean id="authService" class="org.academiadecodigo.javabank.services.AuthServiceImpl">
+        <property name="customerService" ref="customerService" />
+    </bean>
+
+    <bean id="accountService" class="org.academiadecodigo.javabank.services.AccountServiceImpl">
+        <property name="accountDao" ref="jpsAccountDao" />
+        <property name="transactionManager" ref="jpaTransactionManager" />
+    </bean>
+
+    <bean id="customerService" class="org.academiadecodigo.javabank.services.CustomerServiceImpl">
+        <property name="customerDao" ref="jpaCustomerDao" />
+        <property name="transactionManager" ref="jpaTransactionManager" />
+    </bean>
+
+
+
 
 </beans>
