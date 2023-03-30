@@ -6,27 +6,17 @@ import org.academiadecodigo.javabank.persistence.model.Recipient;
 import org.academiadecodigo.javabank.persistence.model.account.Account;
 import org.academiadecodigo.javabank.services.CustomerService;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * A mock {@link CustomerService} implementation
- */
 public class MockCustomerService extends AbstractMockService<Customer> implements CustomerService {
 
-    /**
-     * @see CustomerService#get(Integer)
-     */
     @Override
     public Customer get(Integer id) {
         return modelMap.get(id);
     }
 
-    /**
-     * @see CustomerService#getBalance(Integer)
-     */
     @Override
     public double getBalance(Integer customerId) {
 
@@ -37,9 +27,6 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
                 .sum();
     }
 
-    /**
-     * @see CustomerService#listCustomerAccountIds(Integer)
-     */
     @Override
     public Set<Integer> listCustomerAccountIds(Integer id) {
 
@@ -50,11 +37,13 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
                 .collect(Collectors.toSet());
     }
 
-    /**
-     * @see CustomerService#listRecipients(Integer)
-     */
     @Override
     public List<Recipient> listRecipients(Integer id) {
         return modelMap.get(id).getRecipients();
+    }
+    
+    @Override
+    public List<Customer> findAll () {
+        return null;
     }
 }

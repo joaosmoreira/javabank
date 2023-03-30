@@ -1,18 +1,12 @@
 package org.academiadecodigo.javabank.persistence.dao;
 
 import org.academiadecodigo.javabank.persistence.model.Customer;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * Common interface for customer data access objects
- */
+@Repository
 public interface CustomerDao extends Dao<Customer> {
 
-    /**
-     * Gets a list of customer ids
-     *
-     * @return the list of customer ids
-     */
     List<Integer> getCustomerIds();
 }

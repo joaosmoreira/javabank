@@ -1,47 +1,35 @@
 package org.academiadecodigo.javabank.services;
 
-import org.academiadecodigo.javabank.persistence.model.account.Account;
 import org.academiadecodigo.javabank.persistence.dao.AccountDao;
+import org.academiadecodigo.javabank.persistence.model.account.Account;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-/**
- * An {@link AccountService} implementation
- */
+/* anotacoes spring framework */
+@Service
 public class AccountServiceImpl implements AccountService {
 
     private AccountDao accountDao;
 
-    /**
-     * Sets the account data access object
-     *
-     * @param accountDao the account DAO to set
-     */
+    @Autowired
     public void setAccountDao(AccountDao accountDao) {
         this.accountDao = accountDao;
     }
 
-    /**
-     * @see AccountService#get(Integer)
-     */
     @Override
     public Account get(Integer id) {
         return accountDao.findById(id);
     }
 
-    /**
-     * @see AccountService#add(Account)
-     */
     @Transactional
     @Override
     public Integer add(Account account) {
         return accountDao.saveOrUpdate(account).getId();
     }
 
-    /**
-     * @see AccountService#deposit(Integer, double)
-     */
     @Transactional
     @Override
     public void deposit(Integer id, double amount) {
@@ -53,9 +41,6 @@ public class AccountServiceImpl implements AccountService {
         accountDao.saveOrUpdate(accountOptional.get());
     }
 
-    /**
-     * @see AccountService#withdraw(Integer, double)
-     */
     @Transactional
     @Override
     public void withdraw(Integer id, double amount) {
@@ -72,9 +57,6 @@ public class AccountServiceImpl implements AccountService {
         accountDao.saveOrUpdate(account);
     }
 
-    /**
-     * @see AccountService#transfer(Integer, Integer, double)
-     */
     @Transactional
     @Override
     public void transfer(Integer srcId, Integer dstId, double amount) {
