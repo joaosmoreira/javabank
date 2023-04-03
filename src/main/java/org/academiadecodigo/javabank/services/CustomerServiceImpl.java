@@ -16,9 +16,6 @@ import java.util.Optional;
 
 import static org.academiadecodigo.javabank.errors.ErrorMessage.*;
 
-/**
- * An {@link CustomerService} implementation
- */
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -26,46 +23,25 @@ public class CustomerServiceImpl implements CustomerService {
     private RecipientDao recipientDao;
     private AccountDao accountDao;
 
-    /**
-     * Sets the customer data access object
-     *
-     * @param customerDao the account DAO to set
-     */
     @Autowired
     public void setCustomerDao(CustomerDao customerDao) {
         this.customerDao = customerDao;
     }
 
-    /**
-     * Sets the recipient data access object
-     *
-     * @param recipientDao the recipient DAO to set
-     */
     @Autowired
     public void setRecipientDao(RecipientDao recipientDao) {
         this.recipientDao = recipientDao;
     }
 
-    /**
-     * Sets the account data access object
-     *
-     * @param accountDao the account DAO to set
-     */
     @Autowired
     public void setAccountDao(AccountDao accountDao) {
         this.accountDao = accountDao;
     }
 
-    /**
-     * @see CustomerService#get(Integer)
-     */
     public Customer get(Integer id) {
         return customerDao.findById(id);
     }
 
-    /**
-     * @see CustomerService#getBalance(Integer)
-     */
     @Override
     public double getBalance(Integer id) {
 
@@ -77,26 +53,17 @@ public class CustomerServiceImpl implements CustomerService {
                 .sum();
     }
 
-    /**
-     * @see CustomerService#delete(Integer)
-     */
     @Transactional
     @Override
     public void delete(Integer id) {
         customerDao.delete(id);
     }
 
-    /**
-     * @see CustomerService#list()
-     */
     @Override
     public List<Customer> list() {
         return customerDao.findAll();
     }
 
-    /**
-     * @see CustomerService#listRecipients(Integer)
-     */
     @Transactional(readOnly = true)
     @Override
     public List<Recipient> listRecipients(Integer id) {
@@ -109,9 +76,6 @@ public class CustomerServiceImpl implements CustomerService {
         return new ArrayList<>(customer.getRecipients());
     }
 
-    /**
-     * @see CustomerService#removeRecipient(Integer, Integer)
-     */
     @Transactional
     @Override
     public void removeRecipient(Integer id, Integer recipientId) {
@@ -128,5 +92,12 @@ public class CustomerServiceImpl implements CustomerService {
 
         customer.removeRecipient(recipient);
         customerDao.saveOrUpdate(customer);
+    }
+    
+    @Transactional
+    @Override
+    public Customer save (Customer customer) {
+        customerDao.saveOrUpdate (customer);
+        return customer;
     }
 }

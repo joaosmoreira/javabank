@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <thymeleaf th:replace="header :: header" />
+</head>
+<body>
+
+    <div class="container">
+        <h2>Add Customer</h2>
+
+        <form th:object="${customer}" th:action="@{/customer}" method="post">
+            <label>First Name:</label>
+            <input type="text" th:field="*{firstName}" />
+            <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First Name field error messages</span>
+
+            <label>Last Name:</label>
+            <input type="text" th:field="*{lastName}" />
+            <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last Name field error messages</span>
+
+            <label>Email:</label>
+            <input type="email" th:field="*{email}" />
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email field error messages</span>
+
+            <label>Phone:</label>
+            <input type="text" th:field="*{phone}" />
+            <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Phone field error messages</span>
+        </form>
+    </div>
+
+</body>
+</html>
