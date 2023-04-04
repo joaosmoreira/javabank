@@ -21,9 +21,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * An {@link CustomerService} implementation
- */
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -31,39 +28,21 @@ public class CustomerServiceImpl implements CustomerService {
     private RecipientDao recipientDao;
     private AccountDao accountDao;
 
-    /**
-     * Sets the customer data access object
-     *
-     * @param customerDao the account DAO to set
-     */
     @Autowired
     public void setCustomerDao(CustomerDao customerDao) {
         this.customerDao = customerDao;
     }
 
-    /**
-     * Sets the recipient data access object
-     *
-     * @param recipientDao the recipient DAO to set
-     */
     @Autowired
     public void setRecipientDao(RecipientDao recipientDao) {
         this.recipientDao = recipientDao;
     }
 
-    /**
-     * Sets the account data access object
-     *
-     * @param accountDao the account DAO to set
-     */
     @Autowired
     public void setAccountDao(AccountDao accountDao) {
         this.accountDao = accountDao;
     }
 
-    /**
-     * @see CustomerService#get(Integer)
-     */
     @Override
     public Customer get(Integer id) throws CustomerNotFoundException {
 
@@ -76,9 +55,6 @@ public class CustomerServiceImpl implements CustomerService {
         return customer;
     }
 
-    /**
-     * @see CustomerService#getBalance(Integer)
-     */
     @Override
     public double getBalance(Integer id) throws CustomerNotFoundException {
 
@@ -90,18 +66,12 @@ public class CustomerServiceImpl implements CustomerService {
                 .sum();
     }
 
-    /**
-     * @see CustomerService#save(Customer)
-     */
     @Transactional
     @Override
     public Customer save(Customer customer) {
         return customerDao.saveOrUpdate(customer);
     }
 
-    /**
-     * @see CustomerService#delete(Integer)
-     */
     @Transactional
     @Override
     public void delete(Integer id) throws CustomerNotFoundException, AssociationExistsException {
@@ -116,17 +86,11 @@ public class CustomerServiceImpl implements CustomerService {
         customerDao.delete(id);
     }
 
-    /**
-     * @see CustomerService#list()
-     */
     @Override
     public List<Customer> list() {
         return customerDao.findAll();
     }
 
-    /**
-     * @see CustomerService#listRecipients(Integer)
-     */
     @Transactional(readOnly = true)
     @Override
     public List<Recipient> listRecipients(Integer id) throws CustomerNotFoundException {
@@ -140,9 +104,6 @@ public class CustomerServiceImpl implements CustomerService {
         return new ArrayList<>(customer.getRecipients());
     }
 
-    /**
-     * @see CustomerService#addRecipient(Integer, Recipient)
-     */
     @Transactional
     @Override
     public void addRecipient(Integer id, Recipient recipient) throws CustomerNotFoundException, AccountNotFoundException {
@@ -160,9 +121,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     }
 
-    /**
-     * @see CustomerService#removeRecipient(Integer, Integer)
-     */
     @Transactional
     @Override
     public void removeRecipient(Integer id, Integer recipientId) throws CustomerNotFoundException, RecipientNotFoundException {

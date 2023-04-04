@@ -22,9 +22,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
-/**
- * Controller responsible for rendering {@link Customer} related views
- */
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
@@ -36,103 +33,49 @@ public class CustomerController {
     private AccountToAccountDto accountToAccountDto;
     private RecipientToRecipientDto recipientToRecipientDto;
 
-    /**
-     * Sets the customer service
-     *
-     * @param customerService the customer service to set
-     */
     @Autowired
     public void setCustomerService(CustomerService customerService) {
         this.customerService = customerService;
     }
 
-    /**
-     * Sets the converter for converting between customer model objects and customer form objects
-     *
-     * @param customerToCustomerDto the customer to customer form converter to set
-     */
     @Autowired
     public void setCustomerToCustomerDto(CustomerToCustomerDto customerToCustomerDto) {
         this.customerToCustomerDto = customerToCustomerDto;
     }
 
-    /**
-     * Sets the converter for converting between customer form and customer model objects
-     *
-     * @param customerDtoToCustomer the customer form to customer converter to set
-     */
     @Autowired
     public void setCustomerDtoToCustomer(CustomerDtoToCustomer customerDtoToCustomer) {
         this.customerDtoToCustomer = customerDtoToCustomer;
     }
 
-    /**
-     * Sets the converter for converting between account objects and account dto objects
-     *
-     * @param accountToAccountDto the account to account dto converter to set
-     */
     @Autowired
     public void setAccountToAccountDto(AccountToAccountDto accountToAccountDto) {
         this.accountToAccountDto = accountToAccountDto;
     }
 
-    /**
-     * Sets the converter for converting between recipient model objects and recipient form objects
-     *
-     * @param recipientToRecipientDto the recipient to recipient form converter to set
-     */
     @Autowired
     public void setRecipientToRecipientDto(RecipientToRecipientDto recipientToRecipientDto) {
         this.recipientToRecipientDto = recipientToRecipientDto;
     }
 
-    /**
-     * Renders a view with a list of customers
-     *
-     * @param model the model object
-     * @return the view to render
-     * @throws JavaBankException if cannot convert customer to customer Dto
-     */
     @RequestMapping(method = RequestMethod.GET, path = {"/list", "/", ""})
     public String listCustomers(Model model) throws JavaBankException {
         model.addAttribute("customers", customerToCustomerDto.convert(customerService.list()));
         return "customer/list";
     }
 
-    /**
-     * Adds a customer
-     *
-     * @param model the model object
-     * @return the view to render
-     */
     @RequestMapping(method = RequestMethod.GET, path = "/add")
     public String addCustomer(Model model) {
         model.addAttribute("customer", new CustomerDto());
         return "customer/add-update";
     }
 
-    /**
-     * Edits a customer
-     *
-     * @param id    the customer id
-     * @param model the model object
-     * @return the view to render
-     * @throws CustomerNotFoundException if customer doesn't exist
-     */
     @RequestMapping(method = RequestMethod.GET, path = "/{id}/edit")
     public String editCustomer(@PathVariable Integer id, Model model) throws CustomerNotFoundException{
         model.addAttribute("customer", customerToCustomerDto.convert(customerService.get(id)));
         return "customer/add-update";
     }
 
-    /**
-     * Renders a view with customer details
-     *
-     * @param id    the customer id
-     * @param model the model object
-     * @return the view to render
-     * @throws JavaBankException if customer doesn't exist or if cannot convert account to account Dto
-     */
     @RequestMapping(method = RequestMethod.GET, path = "/{id}")
     public String showCustomer(@PathVariable Integer id, Model model) throws JavaBankException {
 
@@ -144,15 +87,6 @@ public class CustomerController {
         return "customer/show";
     }
 
-    /**
-     * Saves the customer form submission and renders a view with the customer details
-     *
-     * @param customerDto        the customer form object
-     * @param redirectAttributes the redirect attributes object
-     * @param bindingResult      the binding result object
-     * @return the view to render
-     * @throws CustomerNotFoundException if customer doesn't exist
-     */
     @RequestMapping(method = RequestMethod.POST, path = {"/", ""}, params = "action=save")
     public String saveCustomer(@Valid @ModelAttribute("customer") CustomerDto customerDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws CustomerNotFoundException {
 
@@ -168,25 +102,12 @@ public class CustomerController {
         return "redirect:/customer/" + savedCustomer.getId();
     }
 
-    /**
-     * Cancels the customer submission and renders the default customer view
-     *
-     * @return the view to render
-     */
     @RequestMapping(method = RequestMethod.POST, path = {"/", ""}, params = "action=cancel")
     public String cancelSaveCustomer() {
         // we could use an anchor tag in the view for this, but we might want to do something clever in the future here
         return "redirect:/customer/";
     }
 
-    /**
-     * Deletes the customer and renders the default customer view
-     *
-     * @param id the customer id
-     * @return the view to render
-     * @throws CustomerNotFoundException if customer doesn't exist
-     * @throws AssociationExistsException if the customer you are trying to delete has associated accounts
-     */
     @RequestMapping(method = RequestMethod.GET, path = "/{id}/delete")
     public String deleteCustomer(@PathVariable Integer id, RedirectAttributes redirectAttributes) throws CustomerNotFoundException, AssociationExistsException {
         Customer customer = customerService.get(id);

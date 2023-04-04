@@ -14,18 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
-/**
- * A {@link ControllerAdvice} implementation, responsible for {@link Controller} exception handling
- */
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
 
-    /**
-     * Renders the not found page view
-     *
-     * @param ex the thrown exception
-     * @return the response
-     */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = NotFoundException.class)
     public ModelAndView handleNotFoundErrors(HttpServletRequest req, NotFoundException ex) {
@@ -35,13 +26,6 @@ public class GlobalControllerExceptionHandler {
         return handleError(HttpStatus.NOT_FOUND, req, ex);
     }
 
-    /**
-     * Renders the bad request page view
-     *
-     * @param req the http request
-     * @param ex  the thrown exception
-     * @return the model to render
-     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = JavaBankException.class)
     public ModelAndView handleClientErrors(HttpServletRequest req, JavaBankException ex) {
@@ -50,13 +34,6 @@ public class GlobalControllerExceptionHandler {
         return handleError(HttpStatus.BAD_REQUEST, req, ex);
     }
 
-    /**
-     * Renders the internal server error page view
-     *
-     * @param req the http request
-     * @param ex  the thrown exception
-     * @return the model to render
-     */
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = Exception.class)
     public ModelAndView handleServerErrors(HttpServletRequest req, Exception ex) {

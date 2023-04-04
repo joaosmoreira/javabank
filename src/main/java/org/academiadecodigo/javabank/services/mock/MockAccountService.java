@@ -7,22 +7,13 @@ import org.academiadecodigo.javabank.services.AccountService;
 
 import java.util.Optional;
 
-/**
- * A mock {@link AccountService} implementation
- */
 public class MockAccountService extends AbstractMockService<Account> implements AccountService {
 
-    /**
-     * @see AccountService#get(Integer)
-     */
     @Override
     public Account get(Integer id) {
         return modelMap.get(id);
     }
 
-    /**
-     * @see AccountService#deposit(Integer, double)
-     */
     public void deposit(Integer id, double amount) throws AccountNotFoundException {
 
 //        Account account = modelMap.get(id);
@@ -38,9 +29,6 @@ public class MockAccountService extends AbstractMockService<Account> implements 
                 .credit(amount);
     }
 
-    /**
-     * @see AccountService#withdraw(Integer, double)
-     */
     public void withdraw(Integer id, double amount) throws AccountNotFoundException {
 
         Account account = Optional.ofNullable(modelMap.get(id))
@@ -53,9 +41,6 @@ public class MockAccountService extends AbstractMockService<Account> implements 
         modelMap.get(id).debit(amount);
     }
 
-    /**
-     * @see AccountService#transfer(Integer, Integer, double)
-     */
     public void transfer(Integer srcId, Integer dstId, double amount) throws AccountNotFoundException {
 
         Account srcAccount = Optional.ofNullable(modelMap.get(srcId))

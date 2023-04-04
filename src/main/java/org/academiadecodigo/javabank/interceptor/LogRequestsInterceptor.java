@@ -10,15 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
-/**
- * A {@link HandlerInterceptorAdapter} responsible for the logging of http requests
- */
 @Component
 public class LogRequestsInterceptor extends HandlerInterceptorAdapter {
 
-    /**
-     * @see HandlerInterceptorAdapter#preHandle(HttpServletRequest, HttpServletResponse, Object)
-     */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         HandlerMethod handlerMethod = (HandlerMethod) handler;

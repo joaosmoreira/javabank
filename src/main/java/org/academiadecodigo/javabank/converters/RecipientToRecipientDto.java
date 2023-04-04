@@ -5,18 +5,9 @@ import org.academiadecodigo.javabank.persistence.model.Recipient;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-/**
- * A {@link Converter} implementation, responsible for {@link Recipient} to {@link RecipientDto} type conversion
- */
 @Component
 public class RecipientToRecipientDto extends AbstractConverter<Recipient, RecipientDto> {
 
-    /**
-     * Converts the recipient model object into a recipient dto object
-     *
-     * @param recipient the recipient
-     * @return the recipient dto
-     */
     @Override
     public RecipientDto convert(Recipient recipient) {
 

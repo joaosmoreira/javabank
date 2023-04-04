@@ -14,33 +14,19 @@ import org.academiadecodigo.javabank.services.CustomerService;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * A mock {@link CustomerService} implementation
- */
 public class MockCustomerService extends AbstractMockService<Customer> implements CustomerService {
 
     private AccountService accountService;
 
-    /**
-     * Sets the account service
-     *
-     * @param accountService the account service to set
-     */
     public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
     }
 
-    /**
-     * @see CustomerService#get(Integer)
-     */
     @Override
     public Customer get(Integer id) {
         return modelMap.get(id);
     }
 
-    /**
-     * @see CustomerService#getBalance(Integer)
-     */
     @Override
     public double getBalance(Integer customerId) throws CustomerNotFoundException {
 
@@ -52,9 +38,6 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
                 .sum();
     }
 
-    /**
-     * @see CustomerService#save(Customer)
-     */
     @Override
     public Customer save(Customer customer) {
 
@@ -66,9 +49,6 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
         return customer;
     }
 
-    /**
-     * @see CustomerService#delete(Integer)
-     */
     @Override
     public void delete(Integer id) throws AssociationExistsException {
 
@@ -81,17 +61,11 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
         modelMap.remove(id);
     }
 
-    /**
-     * @see CustomerService#list()
-     */
     @Override
     public List<Customer> list() {
         return new ArrayList<>(modelMap.values());
     }
 
-    /**
-     * @see CustomerService#listRecipients(Integer)
-     */
     @Override
     public List<Recipient> listRecipients(Integer id) throws CustomerNotFoundException {
 
@@ -100,9 +74,6 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
                 .getRecipients();
     }
 
-    /**
-     * @see CustomerService#addRecipient(Integer, Recipient)
-     */
     @Override
     public void addRecipient(Integer id, Recipient recipient) throws CustomerNotFoundException, AccountNotFoundException {
 
@@ -121,9 +92,6 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
         customer.addRecipient(recipient);
     }
 
-    /**
-     * @see CustomerService#removeRecipient(Integer, Integer)
-     */
     @Override
     public void removeRecipient(Integer id, Integer recipientId) throws CustomerNotFoundException, RecipientNotFoundException {
 

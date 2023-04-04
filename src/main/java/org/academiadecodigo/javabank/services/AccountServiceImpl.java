@@ -9,27 +9,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-/**
- * An {@link AccountService} implementation
- */
 @Service
 public class AccountServiceImpl implements AccountService {
 
     private AccountDao accountDao;
 
-    /**
-     * Sets the account data access object
-     *
-     * @param accountDao the account DAO to set
-     */
     @Autowired
     public void setAccountDao(AccountDao accountDao) {
         this.accountDao = accountDao;
     }
 
-    /**
-     * @see AccountService#get(Integer)
-     */
     @Override
     public Account get(Integer id) throws AccountNotFoundException {
 
@@ -42,9 +31,6 @@ public class AccountServiceImpl implements AccountService {
         return account;
     }
 
-    /**
-     * @see AccountService#deposit(Integer, double)
-     */
     @Transactional
     @Override
     public void deposit(Integer id, double amount) throws AccountNotFoundException {
@@ -57,9 +43,6 @@ public class AccountServiceImpl implements AccountService {
         accountDao.saveOrUpdate(account);
     }
 
-    /**
-     * @see AccountService#withdraw(Integer, double)
-     */
     @Transactional
     @Override
     public void withdraw(Integer id, double amount) throws AccountNotFoundException {
@@ -72,9 +55,6 @@ public class AccountServiceImpl implements AccountService {
         accountDao.saveOrUpdate(account);
     }
 
-    /**
-     * @see AccountService#transfer(Integer, Integer, double)
-     */
     @Transactional
     @Override
     public void transfer(Integer srcId, Integer dstId, double amount) throws AccountNotFoundException {
