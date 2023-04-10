@@ -61,11 +61,9 @@ public class Json {
 	}
 	
 	// read all accounts for customer
-	/*
 	@RequestMapping(method = RequestMethod.GET, value = "api/customer/{id}/account")
 	public ResponseEntity<List<AccountDto>> listAccounts() {
 		
 		List<AccountDto> list = accountToAccountDto.convert (accountService.)
 	}
-	*/
 }
